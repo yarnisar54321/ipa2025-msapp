@@ -45,6 +45,9 @@ def add_router():
 
     return redirect(url_for("main"))
 
+
+
+
 @app.route("/delete", methods=["POST"])
 def delete_comment():
     try:

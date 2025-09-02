@@ -24,6 +24,34 @@ services:
     env_file:
       - .env
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    # export from container t
+    ports:
+      - "5672:5672" #AMQP protocol port
+      - "15672:15672" #management UI port
+    networks:
+      - app-net
+    env_file:
+      - .env
+
+  scheduler:
+    build: ./scheduler
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-net
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/"
+      DB_NAME : "mydatabase"
+      RABBITMQ_USER: "${RABBITMQ_DEFAULT_USER}"
+      RABBITMQ_PASS: "${RABBITMQ_DEFAULT_PASS}"
+      
+
+
 volumes:
   mongo-data:
 
