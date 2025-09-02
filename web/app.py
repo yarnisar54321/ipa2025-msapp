@@ -11,8 +11,10 @@ import os
 mongo_uri  = os.environ.get("MONGO_URI")
 db_name    = os.environ.get("DB_NAME")
 
-client = MongoClient("mongodb://mongo:27017/")
-mydb = client["mydatabase"]
+# client = MongoClient("mongodb://mongo:27017/")
+# mydb = client["mydatabase"]
+client = MongoClient(mongo_uri)
+mydb = client[db_name]
 mycol = mydb["routers"]
 
 
