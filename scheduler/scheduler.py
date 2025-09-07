@@ -22,6 +22,7 @@ def scheduler():
             for data in get_router_info():
                 body_bytes = json_util.dumps(data).encode("utf-8")
                 produce(rabbit, body_bytes)
+                print(data)
         except Exception as e:
             print(e)
             time.sleep(3)

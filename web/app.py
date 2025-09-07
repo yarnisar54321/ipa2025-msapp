@@ -6,7 +6,7 @@ from flask import url_for
 from pymongo import MongoClient
 from bson import ObjectId
 import os
-
+from datetime import datetime, UTC
 
 mongo_uri  = os.environ.get("MONGO_URI")
 db_name    = os.environ.get("DB_NAME")
@@ -16,6 +16,7 @@ db_name    = os.environ.get("DB_NAME")
 client = MongoClient(mongo_uri)
 mydb = client[db_name]
 mycol = mydb["routers"]
+interface_status = mydb["interface_status"]
 
 
 app = Flask(__name__)
@@ -40,9 +41,17 @@ def add_router():
     #     data.append({"yourname": yourname, "message": message})
     # return redirect(url_for("main"))
     if ip and username and password :
+        # Insert into routers collection
         # data.append({"ip": ip, "username": username, "password":password})
         x = mycol.insert_one({"ip": ip, "username": username, "password":password})
 
+
+        # Insert also into interface_status collection
+        interface_status.insert_one({
+            "router_ip": ip,
+            "timestamp": datetime.now(UTC),
+            "interfaces": []   # you can later update this with real interface data
+        })
     return redirect(url_for("main"))
 
 

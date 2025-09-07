@@ -26,9 +26,10 @@ def produce(host, body):
     channel.queue_declare(queue="router_jobs")
     channel.queue_bind(queue="router_jobs", exchange="jobs", routing_key="check_interfaces")
     channel.basic_publish(exchange="jobs", routing_key="check_interfaces", body=body)
-    # body is mongoDB that see from chotipat
     connection.close()
 
+
 if __name__ == "__main__":
-    produce("localhost","192.168.1.44")
+    produce("localhost", "192.168.1.44")
+    
 # this ip is string 

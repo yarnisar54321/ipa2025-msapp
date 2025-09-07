@@ -8,5 +8,5 @@ COPY requirements.txt .
 # RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8080
 CMD python3 /home/myapp/app.py
+# CMD ["python3", "app.py"]
 
-# seee chotipat2025
