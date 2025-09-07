@@ -42,18 +42,12 @@ def add_router():
         # Insert into routers collection
         # data.append({"ip": ip, "username":
         #  username, "password":password})
-        mycol.insert_one({
-            "ip": ip,
-            "username": username,
-            "password": password
-        })
+        mycol.insert_one({"ip": ip, "username": username, "password": password})
 
         # Insert also into interface_status collection
-        interface_status.insert_one({
-            "router_ip": ip,
-            "timestamp": datetime.now(UTC),
-            "interfaces": []
-        })
+        interface_status.insert_one(
+            {"router_ip": ip, "timestamp": datetime.now(UTC), "interfaces": []}
+        )
     return redirect(url_for("main"))
 
 
@@ -75,11 +69,7 @@ def delete_comment():
 def router_detail(ip):
     docs = mydb.interface_status.find
     ({"router_ip": ip}).sort("timestamp", -1).limit(3)
-    return render_template(
-        "router_detail.html",
-        router_ip=ip,
-        interface_data=docs
-    )
+    return render_template("router_detail.html", router_ip=ip, interface_data=docs)
 
 
 if __name__ == "__main__":
