@@ -20,8 +20,8 @@ interface_status = mydb["interface_status"]
 app = Flask(__name__)
 # data = []
 
-@app.route("/")
 
+@app.route("/")
 def main():
     data = mycol.find()
     return render_template("index.html", data=data)
@@ -43,7 +43,7 @@ def add_router():
         # data.append({"ip": ip, "username":
         #  username, "password":password})
         mycol.insert_one({"ip": ip, "username": username,
-        "password": password})
+                            "password": password})
 
         # Insert also into interface_status collection
         interface_status.insert_one({
@@ -67,8 +67,8 @@ def delete_comment():
         pass
     return redirect(url_for("main"))
 
-@app.route("/router/<ip>", methods=["GET"])
 
+@app.route("/router/<ip>", methods=["GET"])
 def router_detail(ip):
     docs = mydb.interface_status.find({"router_ip": ip}
     ).sort("timestamp", -1).limit(3)
@@ -76,7 +76,7 @@ def router_detail(ip):
         "router_detail.html",
         router_ip=ip,
         interface_data=docs,
-    )
+                            )
 
 
 if __name__ == "__main__":
