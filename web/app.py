@@ -17,10 +17,7 @@ client = MongoClient(mongo_uri)
 mydb = client[db_name]
 mycol = mydb["routers"]
 interface_status = mydb["interface_status"]
-
-
 app = Flask(__name__)
-
 # data = []
 
 @app.route("/")
@@ -46,8 +43,7 @@ def add_router():
         # data.append({"ip": ip, "username":
         #  username, "password":password})
         mycol.insert_one({"ip": ip, "username": username,
-                           "password": password})
-
+        "password": password})
 
         # Insert also into interface_status collection
         interface_status.insert_one({
@@ -67,14 +63,15 @@ def delete_comment():
         mycol.delete_one({"_id": idx})
         return redirect("/")
 
-  
     except Exception:
         pass
     return redirect(url_for("main"))
 
 @app.route("/router/<ip>", methods=["GET"])
+
 def router_detail(ip):
-    docs = mydb.interface_status.find({"router_ip": ip}).sort("timestamp", -1).limit(3)
+    docs = mydb.interface_status.find({"router_ip": ip}
+    ).sort("timestamp", -1).limit(3)
     return render_template(
         "router_detail.html",
         router_ip=ip,

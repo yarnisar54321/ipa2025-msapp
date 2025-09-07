@@ -20,6 +20,5 @@ def get_router_info():
     return router_data
 
 
-
 if __name__ == '__main__':
     get_router_info()

@@ -6,6 +6,7 @@ from database import get_router_info
 
 rabbit = "rabbitmq"
 
+
 def scheduler():
 
     INTERVAL = 10.0
@@ -15,7 +16,7 @@ def scheduler():
     while True:
         now = time.time()
         now_str = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(now))
-        ms = int((now % 1) * 1000) 
+        ms = int((now % 1) * 1000)
         now_str_with_ms = f"{now_str}.{ms:03d}"
         print(f"[{now_str_with_ms}] run #{count}")
 
