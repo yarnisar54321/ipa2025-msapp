@@ -6,7 +6,6 @@ from flask import url_for
 from pymongo import MongoClient
 from bson import ObjectId
 import os
-from datetime import datetime, UTC
 
 mongo_uri = os.environ.get("MONGO_URI")
 db_name = os.environ.get("DB_NAME")
