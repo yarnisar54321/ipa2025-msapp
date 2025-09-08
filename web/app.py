@@ -23,7 +23,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-    data = mycol.find()
+    data = list(mycol.find())
     return render_template("index.html", data=data)
 
 
@@ -43,18 +43,13 @@ def add_router():
         # data.append({"ip": ip, "username":
         #  username, "password":password})
         mycol.insert_one({"ip": ip, "username": username, "password": password})
-
-        # Insert also into interface_status collection
-        interface_status.insert_one(
-            {"router_ip": ip, "timestamp": datetime.now(UTC), "interfaces": []}
-        )
     return redirect(url_for("main"))
 
 
-@app.route("/delete", methods=["POST"])
-def delete_comment():
+@app.route("/delete/<idx>", methods=["POST"])
+def delete_comment(idx):
     try:
-        idx = ObjectId(request.form.get("idx"))
+        idx = ObjectId(idx)
         # if 0 <= idx < len(data):
         #     data.pop(idx)
         mycol.delete_one({"_id": idx})
@@ -67,8 +62,9 @@ def delete_comment():
 
 @app.route("/router/<ip>", methods=["GET"])
 def router_detail(ip):
-    docs = mydb.interface_status.find
-    ({"router_ip": ip}).sort("timestamp", -1).limit(3)
+    docs = list(
+        mydb.interface_status.find({"router_ip": ip}).sort("timestamp", -1).limit(3)
+    )
     return render_template("router_detail.html", router_ip=ip, interface_data=docs)
 
 
