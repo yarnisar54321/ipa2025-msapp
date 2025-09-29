@@ -18,7 +18,7 @@ spec:
           image: yarnisar54321/scheduler:latest
           envFrom:
             - secretRef:
-                name: "________"
+                name: "ipa2025"
           resources:
             requests:
               cpu: "50m"
